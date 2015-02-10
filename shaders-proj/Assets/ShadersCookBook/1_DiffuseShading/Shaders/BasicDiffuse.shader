@@ -1,4 +1,4 @@
-﻿Shader "CookbookShaders/BasicDiffuse" {
+﻿Shader "CookbookShaders/Diffuse/BasicDiffuse" {
 	Properties {
 		_EmissiveColor ("Emissive Color", Color) = (1, 1, 1, 1)
 		_AmbientColor ("Ambient Color", Color) = (1, 1, 1, 1)
