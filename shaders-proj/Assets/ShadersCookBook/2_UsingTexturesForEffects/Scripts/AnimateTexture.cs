@@ -2,11 +2,11 @@
 
 public class AnimateTexture : MonoBehaviour
 {
-    private float _timeValue = 0.0f;
+    private float _timeValue;
 
-    void FixedUpdate()
+    private void FixedUpdate()
     {
-        _timeValue = Mathf.Ceil(Time.time * 10);
+        _timeValue = Mathf.Ceil(Time.time*10);
         transform.renderer.material.SetFloat("_TimeValue", _timeValue);
     }
 }

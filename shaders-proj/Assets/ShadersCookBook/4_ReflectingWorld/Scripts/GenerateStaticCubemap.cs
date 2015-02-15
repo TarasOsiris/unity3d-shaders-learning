@@ -1,28 +1,27 @@
-﻿using UnityEngine;
-using UnityEditor;
-using System.Collections;
+﻿using UnityEditor;
+using UnityEngine;
 
 public class GenerateStaticCubemap : ScriptableWizard
 {
-    public Transform renderPosition;
     public Cubemap cubemap;
+    public Transform renderPosition;
 
     [MenuItem("CookBook/Render Cubemap")]
-    static void RenderCubemap()
+    private static void RenderCubemap()
     {
-        ScriptableWizard.DisplayWizard("Render CubeMap", typeof (GenerateStaticCubemap), "Render");
+        DisplayWizard("Render CubeMap", typeof (GenerateStaticCubemap), "Render");
     }
 
-    void OnWizardCreate()
+    private void OnWizardCreate()
     {
-        GameObject go = new GameObject("CubeCam", typeof(Camera));
+        var go = new GameObject("CubeCam", typeof (Camera));
         go.transform.position = renderPosition.position;
         go.transform.rotation = Quaternion.identity;
         go.camera.RenderToCubemap(cubemap);
         DestroyImmediate(go);
     }
 
-    void OnWizardUpdate()
+    private void OnWizardUpdate()
     {
         helpString = "Select transform to render from and cubemap to render into";
         if (renderPosition != null && cubemap != null)

@@ -1,15 +1,14 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public class DrawRays : MonoBehaviour
 {
-    MeshFilter curFilter;
+    private MeshFilter curFilter;
     public float gizmosSize = 1.0f;
 
-    void OnDrawGizmos()
+    private void OnDrawGizmos()
     {
         Gizmos.matrix = transform.localToWorldMatrix;
-        Vector3 camPosition = Camera.main.transform.position;
+        var camPosition = Camera.main.transform.position;
 
         if (!curFilter)
         {
@@ -21,25 +20,24 @@ public class DrawRays : MonoBehaviour
         }
         else
         {
-            Mesh curMesh = curFilter.sharedMesh;
+            var curMesh = curFilter.sharedMesh;
             if (curMesh)
             {
-                for (int i = 0; i < curMesh.vertices.Length; i++)
+                for (var i = 0; i < curMesh.vertices.Length; i++)
                 {
-
-                    Vector3 viewDir = (curMesh.vertices[i] - camPosition).normalized;
-                    Vector3 curReflVector = Reflect(viewDir, curMesh.normals[i]);
+                    var viewDir = (curMesh.vertices[i] - camPosition).normalized;
+                    var curReflVector = Reflect(viewDir, curMesh.normals[i]);
 
                     Gizmos.color = new Color(curReflVector.x, curReflVector.y, curReflVector.z, 1.0f);
-                    Gizmos.DrawRay(curMesh.vertices[i], curReflVector * gizmosSize);
+                    Gizmos.DrawRay(curMesh.vertices[i], curReflVector*gizmosSize);
                 }
             }
         }
     }
 
-    Vector3 Reflect(Vector3 viewDir, Vector3 normal)
+    private Vector3 Reflect(Vector3 viewDir, Vector3 normal)
     {
-        Vector3 reflection = viewDir - 2.0f * normal * Vector3.Dot(normal, viewDir);
+        var reflection = viewDir - 2.0f*normal*Vector3.Dot(normal, viewDir);
         return reflection;
     }
 }
