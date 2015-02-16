@@ -1,4 +1,4 @@
-﻿Shader "CookbookShaders/Chapter04/LitSphere" 
+﻿Shader "CookbookShaders/Chapter05/LitSphere" 
 {
 	Properties
 	{
