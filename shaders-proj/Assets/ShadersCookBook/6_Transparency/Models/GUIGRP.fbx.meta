@@ -1,0 +1,102 @@
+fileFormatVersion: 2
+guid: 19e80fe9a77f71044b7c3dfb05ef8b0e
+ModelImporter:
+  serializedVersion: 16
+  fileIDToRecycleName:
+    100000: BulletsIcon_GEO
+    100002: BulletsText_GEO
+    100004: //RootNode
+    100006: HealthIcon_GEO
+    100008: LivesText_GEO
+    100010: OptionsButton_GEO
+    100012: PlayButton_GEO
+    100014: QuitButton_GEO
+    100016: TimeText_GEO
+    400000: BulletsIcon_GEO
+    400002: BulletsText_GEO
+    400004: //RootNode
+    400006: HealthIcon_GEO
+    400008: LivesText_GEO
+    400010: OptionsButton_GEO
+    400012: PlayButton_GEO
+    400014: QuitButton_GEO
+    400016: TimeText_GEO
+    2300000: BulletsIcon_GEO
+    2300002: BulletsText_GEO
+    2300004: HealthIcon_GEO
+    2300006: LivesText_GEO
+    2300008: OptionsButton_GEO
+    2300010: PlayButton_GEO
+    2300012: QuitButton_GEO
+    2300014: TimeText_GEO
+    3300000: BulletsIcon_GEO
+    3300002: BulletsText_GEO
+    3300004: HealthIcon_GEO
+    3300006: LivesText_GEO
+    3300008: OptionsButton_GEO
+    3300010: PlayButton_GEO
+    3300012: QuitButton_GEO
+    3300014: TimeText_GEO
+    4300000: BulletsText_GEO
+    4300002: PlayButton_GEO
+    4300004: QuitButton_GEO
+    4300006: OptionsButton_GEO
+    4300008: HealthIcon_GEO
+    4300010: BulletsIcon_GEO
+    4300012: LivesText_GEO
+    4300014: TimeText_GEO
+    9500000: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationCompression: 1
+    animationRotationError: .5
+    animationPositionError: .5
+    animationScaleError: .5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: .00999999978
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+  tangentSpace:
+    normalSmoothAngle: 60
+    splitTangentsAcrossUV: 1
+    normalImportMode: 0
+    tangentImportMode: 1
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: .5
+    foreArmTwist: .5
+    upperLegTwist: .5
+    legTwist: .5
+    armStretch: .0500000007
+    legStretch: .0500000007
+    feetSpacing: 0
+    rootMotionBoneName: 
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  additionalBone: 0
+  userData: 
