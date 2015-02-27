@@ -2,16 +2,25 @@
 
 	Properties {
 		_Color ("Color Tint", Color) = (1.0, 1.0, 1.0, 1.0)
+		_SpecColor ("Specular Color", Color) = (1.0, 1.0, 1.0, 1.0)
+		_AniX ("Anisotropic X", Range(0.0, 2.0)) = 1.0
+		_AniY ("Anisotropic Y", Range(0.0, 2.0)) = 1.0
+		_Shininess ("Shininess", Float) = 1.0
 	}
 
 	SubShader {
 		Pass {
-			Tags { "LightMode" = "ForwardBase" }
+			Tags {"LightMode" = "ForwardBase"}
 			CGPROGRAM
 			#pragma vertex vert
 			#pragma fragment frag
 
-			uniform float4 _Color;
+			uniform fixed4 _Color;
+			uniform fixed4 _SpecColor;
+			uniform fixed _AniX;
+			uniform fixed _AniY;
+			uniform half _Shininess;
+			uniform fixed4 _LightColor0;
 			
 			// base input structs
 			struct vertexInput {
@@ -25,6 +34,7 @@
 				fixed3 normalDir : TEXCOORD0;
 				fixed4 lightDir : TEXCOORD1;
 				float3 viewDir : TEXCOORD2;
+				fixed3 tangenDir : TEXCOORD3;
 			};
 
 			// vertex function
@@ -33,6 +43,9 @@
 
 				// normal direction
 				o.normalDir = normalize(mul(half4(v.normal, 0.0), _World2Object).xyz);
+
+				// tangent direction
+				o.tangenDir = normalize( mul(_Object2World, half4(v.tangent.xyz, 0.0) ) );
 
 				// unity transform POSITION
 				o.pos = mul(UNITY_MATRIX_MVP, v.vertex);
@@ -54,14 +67,23 @@
 
 			// fragmet function
 			float4 frag(vertexOutput i) : COLOR {
-				// texture maps
-
 				// Lighting
-				// dot product
-				fixed NdotL = saturate(dot(i.normalDir, i.lightDir.xyz));
+				fixed h = normalize(i.lightDir.xyz + i.viewDir);
+				half3 binormalDir = cross(i.normalDir, i.tangenDir);
 
-				fixed3 lightFinal = UNITY_LIGHTMODEL_AMBIENT;
-				return fixed4(lightFinal * _Color.rgb, 1.0);
+				// dot product
+				fixed NdotL = dot(i.normalDir, i.lightDir.xyz);
+				fixed NdotH = dot(i.normalDir, h);
+				fixed NdotV = dot(i.normalDir, i.viewDir);
+				fixed TdotHX = dot(i.tangenDir, h) / _AniX;
+				fixed BdotHY = dot(binormalDir, h) / _AniY;
+
+				fixed3 diffuseReflection = i.lightDir.w * _Color * _LightColor0.xyz * saturate(NdotL);
+				fixed3 specularReflection = diffuseReflection * _SpecColor.rgb * exp( -(TdotHX * TdotHX + BdotHY * BdotHY) ) * _Shininess;
+
+				fixed3 lightFinal = specularReflection + diffuseReflection + UNITY_LIGHTMODEL_AMBIENT.xyz ;
+
+				return fixed4(lightFinal, 1.0);
 			}
 
 			ENDCG
