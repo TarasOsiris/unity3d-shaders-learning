@@ -1,4 +1,4 @@
-Shader "unityсookie/tut/intermediate/7 - Flat Translucency"{
+Shader "unitycookie/tut/intermediate/7 - Flat Translucency"{
 	Properties {
 		_Color ("Color Tint", Color) = (1.0,1.0,1.0,1.0)
 		_SpecColor ("Specular Color", Color) = (1.0, 1.0, 1.0, 1.0)
