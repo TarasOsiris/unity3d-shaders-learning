@@ -17,7 +17,7 @@ public class GenerateStaticCubemap : ScriptableWizard
         var go = new GameObject("CubeCam", typeof (Camera));
         go.transform.position = renderPosition.position;
         go.transform.rotation = Quaternion.identity;
-        go.camera.RenderToCubemap(cubemap);
+        go.GetComponent<Camera>().RenderToCubemap(cubemap);
         DestroyImmediate(go);
     }
 

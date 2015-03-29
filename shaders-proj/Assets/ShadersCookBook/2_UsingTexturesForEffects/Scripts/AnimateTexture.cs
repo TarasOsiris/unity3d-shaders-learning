@@ -7,6 +7,6 @@ public class AnimateTexture : MonoBehaviour
     private void FixedUpdate()
     {
         _timeValue = Mathf.Ceil(Time.time*10);
-        transform.renderer.material.SetFloat("_TimeValue", _timeValue);
+        transform.GetComponent<Renderer>().material.SetFloat("_TimeValue", _timeValue);
     }
 }

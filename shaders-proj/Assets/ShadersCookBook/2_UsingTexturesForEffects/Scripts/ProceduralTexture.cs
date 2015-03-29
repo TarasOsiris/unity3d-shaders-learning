@@ -11,7 +11,7 @@ public class ProceduralTexture : MonoBehaviour
     {
         if (!_currentMaterial)
         {
-            _currentMaterial = transform.renderer.sharedMaterial;
+            _currentMaterial = transform.GetComponent<Renderer>().sharedMaterial;
             if (!_currentMaterial)
             {
                 Debug.LogWarning("Cannot find a material on: " + transform.name);

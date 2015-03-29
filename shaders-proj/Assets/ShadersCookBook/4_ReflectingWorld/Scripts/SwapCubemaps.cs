@@ -14,7 +14,7 @@ public class SwapCubemaps : MonoBehaviour
 
     void Update()
     {
-        curMat = renderer.sharedMaterial;
+        curMat = GetComponent<Renderer>().sharedMaterial;
         if (curMat)
         {
             curCubemap = CheckProbeDistance();
