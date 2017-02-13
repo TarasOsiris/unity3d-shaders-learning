@@ -38,10 +38,24 @@
 
             float4 frag(v2f i) : SV_TARGET
             {
-                float2 cell = floor(i.uv * _Resolution);
+                float2 p = i.uv;
+
+                float2 cell = floor(p * _Resolution);
                 float2 center = (cell + 0.5) / _Resolution;
+
+                float t = _Time.y + cell.x + cell.y;
+                t *= 2;
+
+                float l = distance(p, center);
+                float r = (0.3 + sin(t) * 0.3) / _Resolution;
+
+                float br1 = smoothstep(0.0, +0.005, l - r);
+                float br2 = smoothstep(-0.005, 0.0, r - l);
+
+                float res = br1 * br2 * 8.0;
+                float3 rgb = float3(res, res, res);
                 
-                return float4(center, 0, 0);
+                return float4(rgb, 1);
             }
             ENDCG
         }
