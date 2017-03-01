@@ -2,7 +2,6 @@ Shader "AlanZucconi/VolumetricRendering1"
 {
 	Properties
 	{
-		_MainTex ("Texture", 2D) = "white" {}
 		_Centre ("Centre", Float) = 0
 		_Radius ("Radius", Float) = 1
 	}
@@ -18,7 +17,7 @@ Shader "AlanZucconi/VolumetricRendering1"
 
 			#include "UnityCG.cginc"
 
-			float3 _Centre;
+			float _Centre;
 			float _Radius;
 
 			struct v2f
@@ -50,21 +49,19 @@ Shader "AlanZucconi/VolumetricRendering1"
 			{
 				v2f o;
 				o.vertex = mul(UNITY_MATRIX_MVP, v.vertex);
-				o.worldPos = mul(unity_ObjectToWorld, o.vertex).xyz;
+				o.worldPos = mul(unity_ObjectToWorld, v.vertex).xyz;
 				return o;
 			}
 
 			fixed4 frag (v2f i) : SV_Target
 			{
 				float3 worldPosition = i.worldPos;
-				float3 viewDirection = normalize(i.worldPos - _WorldSpaceCameraPos);
+				float3 viewDirection = normalize(worldPosition - _WorldSpaceCameraPos);
 				if (raymarchHit(worldPosition, viewDirection))
 					return fixed4(1,0,0,1); // red if hit the ball
 				else
 					return fixed4(1,1,1,1); // white otherwise
 			}
-
-
 
 			ENDCG
 		}
