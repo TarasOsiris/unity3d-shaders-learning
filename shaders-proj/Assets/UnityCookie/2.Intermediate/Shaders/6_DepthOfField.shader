@@ -1,3 +1,5 @@
+// Upgrade NOTE: replaced '_Object2World' with 'unity_ObjectToWorld'
+
 Shader "unitycookie/tut/intermediate/6 - DoF"{
 	Properties {
 		_MainTex ("Diffuse Texture", 2D) = "white" {}
@@ -48,7 +50,7 @@ Shader "unitycookie/tut/intermediate/6 - DoF"{
 				o.pos = mul(UNITY_MATRIX_MVP, v.vertex);
 				
 				//clamp z-depth to range
-				o.depth = saturate( ( distance( mul(_Object2World, v.vertex) , _WorldSpaceCameraPos.xyz) -_RangeStart)/_RangeEnd );
+				o.depth = saturate( ( distance( mul(unity_ObjectToWorld, v.vertex) , _WorldSpaceCameraPos.xyz) -_RangeStart)/_RangeEnd );
 				
 				o.tex = v.texcoord;
 				return o;

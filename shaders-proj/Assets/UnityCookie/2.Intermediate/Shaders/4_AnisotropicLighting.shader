@@ -1,4 +1,7 @@
-﻿Shader "unitycookie/tut/intermediate/4 - Anisotropic Lighting" {
+﻿// Upgrade NOTE: replaced '_Object2World' with 'unity_ObjectToWorld'
+// Upgrade NOTE: replaced '_World2Object' with 'unity_WorldToObject'
+
+Shader "unitycookie/tut/intermediate/4 - Anisotropic Lighting" {
 
 	Properties {
 		_Color ("Color Tint", Color) = (1.0, 1.0, 1.0, 1.0)
@@ -42,16 +45,16 @@
 				vertexOutput o;
 
 				// normal direction
-				o.normalDir = normalize(mul(half4(v.normal, 0.0), _World2Object).xyz);
+				o.normalDir = normalize(mul(half4(v.normal, 0.0), unity_WorldToObject).xyz);
 
 				// tangent direction
-				o.tangenDir = normalize( mul(_Object2World, half4(v.tangent.xyz, 0.0) ) );
+				o.tangenDir = normalize( mul(unity_ObjectToWorld, half4(v.tangent.xyz, 0.0) ) );
 
 				// unity transform POSITION
 				o.pos = mul(UNITY_MATRIX_MVP, v.vertex);
 
 				// world position
-				half4 worldPos = mul(_Object2World, v.vertex);
+				half4 worldPos = mul(unity_ObjectToWorld, v.vertex);
 				// view direction
 				o.viewDir = normalize(_WorldSpaceCameraPos.xyz - worldPos.xyz);
 

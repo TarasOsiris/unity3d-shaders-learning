@@ -1,3 +1,5 @@
+// Upgrade NOTE: replaced '_Object2World' with 'unity_ObjectToWorld'
+
 Shader "unitycookie/tut/intermediate/5 - Depth Fog"{
 	Properties {
 		_Color ("Color Tint", Color) = (1.0,1.0,1.0,1.0)
@@ -39,7 +41,7 @@ Shader "unitycookie/tut/intermediate/5 - Depth Fog"{
 				o.pos = mul(UNITY_MATRIX_MVP, v.vertex);
 
 				// world position
-				o.posWorld = mul(_Object2World, v.vertex);
+				o.posWorld = mul(unity_ObjectToWorld, v.vertex);
 
 				
 				return o;

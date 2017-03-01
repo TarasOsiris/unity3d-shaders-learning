@@ -1,3 +1,6 @@
+// Upgrade NOTE: replaced '_Object2World' with 'unity_ObjectToWorld'
+// Upgrade NOTE: replaced '_World2Object' with 'unity_WorldToObject'
+
 Shader "unitycookie/tut/intermediate/8 - Vertex Animations"{
 	Properties {
 		_Color ("Color Tint", Color) = (1.0,1.0,1.0,1.0)
@@ -63,13 +66,13 @@ Shader "unitycookie/tut/intermediate/8 - Vertex Animations"{
 				newPos.xyz = newPos.xyz + sin(_Time.x * _AnimSpeed + (animOffset.x + animOffset.y + animOffset.z) * _AnimFreq) * animPower.xyz;
 				
 				//normalDirection
-				o.normalDir = normalize( mul( half4( v.normal, 0.0 ), _World2Object ).xyz );
+				o.normalDir = normalize( mul( half4( v.normal, 0.0 ), unity_WorldToObject ).xyz );
 				
 				//unity transform position
 				o.pos = mul(UNITY_MATRIX_MVP, newPos);
 				
 				//world position
-				half4 posWorld = mul(_Object2World, newPos);
+				half4 posWorld = mul(unity_ObjectToWorld, newPos);
 				//view direction
 				o.viewDir = normalize( _WorldSpaceCameraPos.xyz - posWorld.xyz );
 				//light direction
