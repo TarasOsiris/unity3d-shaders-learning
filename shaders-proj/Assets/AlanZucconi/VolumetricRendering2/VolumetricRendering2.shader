@@ -1,4 +1,4 @@
-Shader "AlanZucconi/VolumetricRendering1"
+Shader "AlanZucconi/VolumetricRendering2"
 {
 	Properties
 	{
@@ -7,7 +7,9 @@ Shader "AlanZucconi/VolumetricRendering1"
 	}
 	SubShader
 	{
-		Tags { "RenderType"="Opaque" }
+		Tags { "Queue"="Transparent" "RenderType"="Transparent" }
+		Blend SrcAlpha OneMinusSrcAlpha
+		Cull Off
 
 		Pass
 		{
@@ -26,9 +28,27 @@ Shader "AlanZucconi/VolumetricRendering1"
 				float4 vertex : SV_POSITION;
 			};
 
-			fixed4 raymarch(float3 wPos, float3 viewDir)
+			#define STEPS 64
+			#define STEP_SIZE 0.01
+			#define MIN_DISTANCE 0.01
+
+			float sphereDistance(float3 p) 
 			{
-				
+				return distance(p, _Centre) - _Radius;
+			}
+
+			fixed4 raymarch(float3 position, float3 direction)
+			{
+				for (int i = 0; i < STEPS; i++)
+				{
+					float distance = sphereDistance(position);
+					if (distance < 0.0001) // inside the sphere
+						return i / (float) STEPS;
+			
+					position += distance * direction;
+				}
+
+				return 1; // White
 			}
 
 			v2f vert (appdata_full v)
