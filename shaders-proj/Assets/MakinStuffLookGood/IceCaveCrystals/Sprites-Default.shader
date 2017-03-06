@@ -4,7 +4,10 @@ Shader "MakinStuffLookGood/Default"
 	{
 		[PerRendererData] _MainTex ("Sprite Texture", 2D) = "white" {}
 		_OffsetTex ("Offset Texture", 2D) = "white" {}
+		_AmbientTex ("Ambient Texture", 2D) = "white" {}
 		_Color ("Tint", Color) = (1,1,1,1)
+		_GlobalVisibility ("Global Visibility", Float) = 0
+		_GlobalRefractionMag ("Refraction Magnitude", Float) = 0.03
 		[MaterialToggle] PixelSnap ("Pixel snap", Float) = 0
 	}
 
@@ -17,6 +20,7 @@ Shader "MakinStuffLookGood/Default"
 			"RenderType"="Transparent" 
 			"PreviewType"="Plane"
 			"CanUseSpriteAtlas"="True"
+			"DisableBatching" = "True"
 		}
 
 		Cull Off
@@ -71,6 +75,10 @@ Shader "MakinStuffLookGood/Default"
 			sampler2D _AlphaTex;
 			sampler2D _GlobalRefractionTex;
 			sampler2D _OffsetTex;
+			sampler2D _AmbientTex;
+
+			float _GlobalVisibility;
+			float _GlobalRefractionMag;
 
 			fixed4 SampleSpriteTexture (float2 uv)
 			{
@@ -84,11 +92,6 @@ Shader "MakinStuffLookGood/Default"
 				return color;
 			}
 
-			float2 map(float2 s, float2 a1, float2 a2, float2 b1, float2 b2)
-			{
-				return b1 + (s-a1)*(b2-b1)/(a2-a1);
-			}
-
 			fixed4 frag(v2f IN) : SV_Target
 			{
 				float4 c = SampleSpriteTexture (IN.texcoord) * IN.color;
@@ -98,12 +101,12 @@ Shader "MakinStuffLookGood/Default"
 				float2 uvscreen = (IN.vertex_raw / IN.vertex_raw.w) * 0.5 + 0.5;
 
 				float2 offset = mul(_Object2World, tex2D(_OffsetTex, IN.texcoord).xy * 2 - 1);
-				float4 boringRefl = tex2D(_GlobalRefractionTex, uvscreen.xy + offset * 0.04);
+				float4 ambient = tex2D(_AmbientTex, (uvscreen.xy + offset * _GlobalRefractionMag * 5) * 2);
+				float4 refl = tex2D(_GlobalRefractionTex, uvscreen.xy + offset * _GlobalRefractionMag);
 
-				c.rgb = c.rgb * (1.0 - boringRefl.a) + (boringRefl.rgb * boringRefl.a);
+				c.rgb = (c.rgb + ambient.rgb) * (1.0 - refl.a * _GlobalVisibility) + (refl.rgb * refl.a * _GlobalVisibility);
 
 				return c;
-				return float4(offset.r, 0, -offset.r, 1);
 			}
 		ENDCG
 		}
