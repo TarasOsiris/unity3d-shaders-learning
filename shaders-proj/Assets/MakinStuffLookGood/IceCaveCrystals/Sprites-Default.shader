@@ -3,6 +3,7 @@ Shader "MakinStuffLookGood/Default"
 	Properties
 	{
 		[PerRendererData] _MainTex ("Sprite Texture", 2D) = "white" {}
+		_OffsetTex ("Offset Texture", 2D) = "white" {}
 		_Color ("Tint", Color) = (1,1,1,1)
 		[MaterialToggle] PixelSnap ("Pixel snap", Float) = 0
 	}
@@ -69,6 +70,7 @@ Shader "MakinStuffLookGood/Default"
 			sampler2D _MainTex;
 			sampler2D _AlphaTex;
 			sampler2D _GlobalRefractionTex;
+			sampler2D _OffsetTex;
 
 			fixed4 SampleSpriteTexture (float2 uv)
 			{
@@ -82,21 +84,26 @@ Shader "MakinStuffLookGood/Default"
 				return color;
 			}
 
+			float2 map(float2 s, float2 a1, float2 a2, float2 b1, float2 b2)
+			{
+				return b1 + (s-a1)*(b2-b1)/(a2-a1);
+			}
+
 			fixed4 frag(v2f IN) : SV_Target
 			{
-				fixed4 c = SampleSpriteTexture (IN.texcoord) * IN.color;
+				float4 c = SampleSpriteTexture (IN.texcoord) * IN.color;
 				c.rgb *= c.a;
 
 				// screen scpace
-				float2 uvscreen = IN.vertex_raw / IN.vertex_raw.w * 0.5 + 0.5;
+				float2 uvscreen = (IN.vertex_raw / IN.vertex_raw.w) * 0.5 + 0.5;
 
-				float4 boringRefl = tex2D(_GlobalRefractionTex, uvscreen.xy);
-
-				// c.rgb = c.rgb * boringRefl;
+				float2 offset = mul(_Object2World, tex2D(_OffsetTex, IN.texcoord).xy * 2 - 1);
+				float4 boringRefl = tex2D(_GlobalRefractionTex, uvscreen.xy + offset * 0.04);
 
 				c.rgb = c.rgb * (1.0 - boringRefl.a) + (boringRefl.rgb * boringRefl.a);
 
 				return c;
+				return float4(offset.r, 0, -offset.r, 1);
 			}
 		ENDCG
 		}
