@@ -1,3 +1,5 @@
+// Upgrade NOTE: replaced '_Object2World' with 'unity_ObjectToWorld'
+
 Shader "MakinStuffLookGood/Default"
 {
 	Properties
@@ -100,7 +102,7 @@ Shader "MakinStuffLookGood/Default"
 				// screen scpace
 				float2 uvscreen = (IN.vertex_raw / IN.vertex_raw.w) * 0.5 + 0.5;
 
-				float2 offset = mul(_Object2World, tex2D(_OffsetTex, IN.texcoord).xy * 2 - 1);
+				float2 offset = mul(unity_ObjectToWorld, tex2D(_OffsetTex, IN.texcoord).xy * 2 - 1);
 				float4 ambient = tex2D(_AmbientTex, (uvscreen.xy + offset * _GlobalRefractionMag * 5) * 2);
 				float4 refl = tex2D(_GlobalRefractionTex, uvscreen.xy + offset * _GlobalRefractionMag);
 
