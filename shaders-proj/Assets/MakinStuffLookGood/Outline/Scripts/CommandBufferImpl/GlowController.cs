@@ -52,7 +52,7 @@ public class GlowController : MonoBehaviour
 
         _commandBuffer.GetTemporaryRT(_prePassRenderTexId, Screen.width, Screen.height, 0, FilterMode.Bilinear, RenderTextureFormat.Default, RenderTextureReadWrite.Default, 2);
         _commandBuffer.SetRenderTarget(_prePassRenderTexId);
-        _commandBuffer.ClearRenderTarget(true, true, Color.clear);
+        _commandBuffer.ClearRenderTarget(true, true, Color.black);
 
         for (int i = 0; i < _glowableObjects.Count; i++)
         {

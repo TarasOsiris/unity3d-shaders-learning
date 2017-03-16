@@ -3,15 +3,13 @@
 	Properties {
 		_Tint ("Tint", Color) = (1, 1, 1, 1)
 		_MainTex ("Albedo", 2D) = "white" {}
-		_Smoothness ("Smoothness", Range(0, 1)) = 0.5
-		_SpecularTint ("Specular", Color) = (0.5, 0.5, 0.5)
 		[Gamma] _Metallic ("Metallic", Range(0, 1)) = 0
+		_Smoothness ("Smoothness", Range(0, 1)) = 0.1
 	}
 
 	SubShader {
 
 		Pass {
-
 			Tags {
 				"LightMode" = "ForwardBase"
 			}
@@ -27,10 +25,10 @@
 
 			float4 _Tint;
 			sampler2D _MainTex;
-			float _Smoothness;
-			float4 _SpecularTint;
 			float4 _MainTex_ST;
+
 			float _Metallic;
+			float _Smoothness;
 
 			struct VertexData {
 				float4 position : POSITION;
@@ -48,9 +46,9 @@
 			Interpolators MyVertexProgram (VertexData v) {
 				Interpolators i;
 				i.position = mul(UNITY_MATRIX_MVP, v.position);
-				i.uv = TRANSFORM_TEX(v.uv, _MainTex);
-				i.normal = UnityObjectToWorldNormal(v.normal);
 				i.worldPos = mul(unity_ObjectToWorld, v.position);
+				i.normal = UnityObjectToWorldNormal(v.normal);
+				i.uv = TRANSFORM_TEX(v.uv, _MainTex);
 				return i;
 			}
 
@@ -67,12 +65,12 @@
 				albedo = DiffuseAndSpecularFromMetallic(
 					albedo, _Metallic, specularTint, oneMinusReflectivity
 				);
-				
+
 				UnityLight light;
 				light.color = lightColor;
 				light.dir = lightDir;
 				light.ndotl = DotClamped(i.normal, lightDir);
-				
+
 				UnityIndirect indirectLight;
 				indirectLight.diffuse = 0;
 				indirectLight.specular = 0;
