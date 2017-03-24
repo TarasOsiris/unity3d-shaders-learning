@@ -88,7 +88,7 @@
 
 					if (totalAlpha == 0)
 					{
-						c.rgba = fixed4(1, 1, 1, 1) * _OutlineColor;
+						c.rgba = _OutlineColor;
 					}
 				}
 
